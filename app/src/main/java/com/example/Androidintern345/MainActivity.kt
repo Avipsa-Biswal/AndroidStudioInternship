@@ -122,7 +122,7 @@ fun TextSample(samples: Map<String, @Composable () -> Unit>) {
     Column {
         samples.forEach { (label, content) ->
             Text(text = label, fontSize = 16.sp, modifier = Modifier.padding(8.dp))
-            content() // Call the composable lambda
+            content()
         }
     }
 }

@@ -3,10 +3,13 @@ package com.example.Androidintern345
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -51,6 +54,8 @@ class MainActivity : ComponentActivity() {
                     MyText1()
                     //shadow effect
                     MyText0()
+                    //Apply marquee effect to text
+                    BasicMarqueeSample()
 
                 }
 
@@ -103,7 +108,7 @@ fun MyText3()
                 fontFamily = FontFamily.SansSerif
             )
         ){
-            append("let's learn something new! ")
+            append("let's learn something new today! ")
         }
         append(" okay! ")
     },
@@ -176,3 +181,15 @@ fun MyText0() {
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun BasicMarqueeSample() {
+    // Marquee only animates when the content doesn't fit in the max width.
+    Column(Modifier.width(400.dp)) {
+        Text(
+            "Learn about why it's great to use Jetpack Compose",
+            modifier = Modifier.basicMarquee(),
+            fontSize = 50.sp
+        )
+    }
+}

@@ -46,14 +46,14 @@ class MainActivity : ComponentActivity() {
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    /*//Set text alignment
+                    //Set text alignment
                     CenterText()
                     //Add multiple styles in a paragraph
                     ParagraphStyle1()
                     //Adjust line height and padding
                     HeightPadding()
                     //Insert line breaks
-                    LineBreaks1()*/
+                    LineBreaks1()
                     //Hyphenate text split across lines
                     HyphenateText()
                     //limit visible lines

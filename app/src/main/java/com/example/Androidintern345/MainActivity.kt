@@ -70,14 +70,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun MyApp(content: @Composable () -> Unit) {
-    MaterialTheme {
-        Surface {
-            content()
-        }
-    }
-}
 
 @Composable
 fun CenterText() {

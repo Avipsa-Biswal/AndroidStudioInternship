@@ -1,444 +1,393 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.Androidintern345
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.rounded.ShoppingCart
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.InputChip
-import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.RangeSlider
-import androidx.compose.material3.Slider
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.VerticalDivider
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.semantics.Role.Companion.Switch
-import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.example.Androidintern345.ui.theme.MyApplicationTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
                 Column(
-
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    // Buttons(All types)
-                    FilledButton()
-                    FilledTonalButtonExample()
-                    OutlinedButtonExample()
-                    RectangleOutlinedButtonExample1()
-                    RectangleOutlinedButtonExample2()
-                    ElevatedButtonExample()
-                    TextButtonExample()
-                    SampleButton()
+                    //- Scaffold
+                    ScaffoldExample()
+                    //- Bottomsheets
+                    PartialBottomSheet()
+                    BottomsheetExample()
+                    //- Dialogs
+                    DialogExamples()
+                    ShowDialogWithImageExample()
+                    //- TextField
+                    SimpleFilledTextFieldSample()
+                    SimpleOutlinedTextFieldSample()
+                    StyledTextField()
 
-                    //- Card
-                    FilledCardExample()
-                    ElevatedCardExample()
-                    OutlinedCardExample()
-
-                    //- Chip
-                    AssistChipExample()
-                    FilterChipExample()
-                    InputChipExample(
-                        text = "Example Chip",
-                        onDismiss = { /* Handle dismiss */ }
-                    )
-                    //- Slider
-                    SliderMinimalExample()
-                    RangeSliderExample()
-                    //- Switch
-                    SwitchMinimalExample()
-                    SwitchWithIconExample()
-                    SwitchWithCustomColors()
-                    //- Divider
-                    HorizontalDividerExample()
-                    VerticalDividerExample()
-                    //- Progress Indicator
-                    IndeterminateCircularIndicator()
                 }
-
             }
         }
-
-    }
-
-
-}
-
-@Composable
-fun FilledButton(){
-    Button(onClick = {
-        println("Button: clicked")
-                     },
-        colors = ButtonDefaults.buttonColors(Color.DarkGray)){
-        Text(text = "Filled", color = Color.Red)
-    }
-}
-@Composable
-fun FilledTonalButtonExample() {
-    FilledTonalButton(onClick = { println("Button: clicked") }) {
-        Text("Tonal")
-    }
-}
-@Composable
-fun OutlinedButtonExample() {
-    OutlinedButton(onClick = { println("Button: clicked") }) {
-        Text("Outlined")
-    }
-}
-@Composable
-fun RectangleOutlinedButtonExample1() {
-    OutlinedButton(onClick = { println("Button: clicked")}, shape = RectangleShape) {
-        Text("Rectangle")
-    }
-}
-@Composable
-fun RectangleOutlinedButtonExample2() {
-    OutlinedButton(onClick = { println("Button: clicked")}, shape = RoundedCornerShape(5.dp)) {
-        Text("Rectangle")
-    }
-}
-@Composable
-fun ElevatedButtonExample() {
-    ElevatedButton(onClick = { println("Button: clicked") }) {
-        Text("Elevated")
     }
 }
 
 @Composable
-fun TextButtonExample() {
-    TextButton(onClick = { println("Button: clicked") }) {
-        Text("Text")
-    }
-}
+fun ScaffoldExample() {
+    var presses by remember { mutableIntStateOf(0) }
 
-@Composable
-fun SampleButton(){
-    Button(onClick = { println("Button: Clicked")},
-        shape = RoundedCornerShape(3.dp),
-        colors = ButtonDefaults.buttonColors(Color.Green)
-    ){
-        Icon(
-            Icons.Rounded.ShoppingCart
-            ,contentDescription ="New" )
-        Text(text = " Add to Cart")
-    }
-}
-
-@Composable
-fun FilledCardExample() {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        ),
-        modifier = Modifier
-            .size(width = 240.dp, height = 100.dp)
-    ) {
-        Text(
-            text = "Filled",
-            modifier = Modifier
-                .padding(16.dp),
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-@Composable
-fun ElevatedCardExample() {
-    ElevatedCard(
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
-        ),
-        modifier = Modifier
-            .size(width = 240.dp, height = 100.dp)
-    ) {
-        Text(
-            text = "Elevated",
-            modifier = Modifier
-                .padding(16.dp),
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-@Composable
-fun OutlinedCardExample() {
-    OutlinedCard(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
-        border = BorderStroke(1.dp, Color.Black),
-        modifier = Modifier
-            .size(width = 240.dp, height = 100.dp)
-    ) {
-        Text(
-            text = "Outlined",
-            modifier = Modifier
-                .padding(16.dp),
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-@Composable
-fun AssistChipExample() {
-    AssistChip(
-        onClick = { Log.d("Assist chip", "hello world") },
-        label = { Text("Assist chip") },
-        leadingIcon = {
-            Icon(
-                Icons.Filled.Settings,
-                contentDescription = "Localized description",
-                Modifier.size(AssistChipDefaults.IconSize)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text("Top app bar")
+                }
             )
-        }
-    )
-}
-@Composable
-fun FilterChipExample() {
-    var selected by remember { mutableStateOf(false) }
-
-    FilterChip(
-        onClick = { selected = !selected },
-        label = {
-            Text("Filter chip")
         },
-        selected = selected,
-        leadingIcon = if (selected) {
-            {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = "Done icon",
-                    modifier = Modifier.size(FilterChipDefaults.IconSize)
+        bottomBar = {
+            BottomAppBar(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.primary,
+            ) {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    text = "Bottom app bar",
                 )
             }
-        } else {
-            null
         },
-    )
-}
-@Composable
-fun InputChipExample(
-    text: String,
-    onDismiss: () -> Unit,
-) {
-    var enabled by remember { mutableStateOf(true) }
-    if (!enabled) return
-
-    InputChip(
-        onClick = {
-            onDismiss()
-            enabled = !enabled
-        },
-        label = { Text(text) },
-        selected = enabled,
-        avatar = {
-            Icon(
-                Icons.Filled.Person,
-                contentDescription = "Localized description",
-                Modifier.size(InputChipDefaults.AvatarSize)
-            )
-        },
-        trailingIcon = {
-            Icon(
-                Icons.Default.Close,
-                contentDescription = "Localized description",
-                Modifier.size(InputChipDefaults.AvatarSize)
-            )
-        },
-    )
-}
-
-
-@Composable
-fun SliderMinimalExample() {
-    var sliderPosition by remember { mutableFloatStateOf(0f) }
-    Column {
-        Slider(
-            value = sliderPosition,
-            onValueChange = { sliderPosition = it }
-        )
-        Text(text = sliderPosition.toString())
-    }
-}
-
-@Composable
-fun RangeSliderExample() {
-    var sliderPosition by remember { mutableStateOf(0f..100f) }
-    Column {
-        RangeSlider(
-            value = sliderPosition,
-            steps = 5,
-            onValueChange = { range -> sliderPosition = range },
-            valueRange = 0f..100f,
-            onValueChangeFinished = {
-                // launch some business logic update with the state you hold
-                // viewModel.updateSelectedSliderValue(sliderPosition)
-            },
-        )
-        Text(text = sliderPosition.toString())
-    }
-}
-
-@Composable
-fun SwitchMinimalExample() {
-    var checked by remember { mutableStateOf(true) }
-
-    Switch(
-        checked = checked,
-        onCheckedChange = {
-            checked = it
-        }
-    )
-}
-@Composable
-fun SwitchWithIconExample() {
-    var checked by remember { mutableStateOf(true) }
-
-    Switch(
-        checked = checked,
-        onCheckedChange = {
-            checked = it
-        },
-        thumbContent = if (checked) {
-            {
-                Icon(
-                    imageVector = Icons.Filled.Check,
-                    contentDescription = null,
-                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                )
+        floatingActionButton = {
+            FloatingActionButton(onClick = { presses++ }) {
+                Icon(Icons.Default.Add, contentDescription = "Add")
             }
-        } else {
-            null
         }
-    )
-}
-@Composable
-fun SwitchWithCustomColors() {
-    var checked by remember { mutableStateOf(true) }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier.padding(innerPadding),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text = """
+                    This is an example of a scaffold. It uses the Scaffold composable's parameters to create a screen with a simple top app bar, bottom app bar, and floating action button.
 
-    Switch(
-        checked = checked,
-        onCheckedChange = {
-            checked = it
-        },
-        colors = SwitchDefaults.colors(
-            checkedThumbColor = MaterialTheme.colorScheme.primary,
-            checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
-            uncheckedThumbColor = MaterialTheme.colorScheme.secondary,
-            uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer,
-        )
-    )
+                    It also contains some basic inner content, such as this text.
+
+                    You have pressed the floating action button $presses times.
+                """.trimIndent(),
+            )
+        }
+    }
 }
 
 @Composable
-fun HorizontalDividerExample() {
+fun PartialBottomSheet() {
+    var showBottomSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("First item in list")
-        HorizontalDivider(thickness = 2.dp)
-        Text("Second item in list")
+        Button(onClick = { showBottomSheet = true }) {
+            Text("Display partial bottom sheet")
+        }
+
+        if (showBottomSheet) {
+            ModalBottomSheet(
+                modifier = Modifier.fillMaxHeight(),
+                sheetState = sheetState,
+                onDismissRequest = { showBottomSheet = false }
+            ) {
+                Text(
+                    "Swipe up to open sheet. Swipe down to dismiss.",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun BottomsheetExample(){
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+    var showBottomSheet by remember { mutableStateOf(false) }
+    Scaffold(
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                text = { Text("Show bottom sheet") },
+                icon = { Icon(Icons.Filled.Add, contentDescription = "") },
+                onClick = {
+                    showBottomSheet = true
+                }
+            )
+        }
+    ) { contentPadding ->
+        // Screen content
+
+        if (showBottomSheet) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    showBottomSheet = false
+                },
+                sheetState = sheetState
+            ) {
+                // Sheet content
+                Button(onClick = {
+                    scope.launch { sheetState.hide() }.invokeOnCompletion {
+                        if (!sheetState.isVisible) {
+                            showBottomSheet = false
+                        }
+                    }
+                }) {
+                    Text("Hide bottom sheet")
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun VerticalDividerExample() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Text("First item in row")
-        VerticalDivider(color = MaterialTheme.colorScheme.secondary)
-        Text("Second item in row")
-    }
-}
-
-@Composable
-fun IndeterminateCircularIndicator() {
-    var loading by remember { mutableStateOf(false) }
-
-    Button(onClick = { loading = true }, enabled = !loading) {
-        Text("Start loading")
-    }
-
-    if (!loading) return
-
-    CircularProgressIndicator(
-        modifier = Modifier.width(64.dp),
-        color = MaterialTheme.colorScheme.secondary,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+fun AlertDialogExample(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String,
+    dialogText: String,
+    icon: ImageVector,
+) {
+    AlertDialog(
+        icon = {
+            Icon(icon, contentDescription = "Example Icon")
+        },
+        title = {
+            Text(text = dialogTitle)
+        },
+        text = {
+            Text(text = dialogText)
+        },
+        onDismissRequest = {
+            onDismissRequest()
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onConfirmation()
+                }
+            ) {
+                Text("Confirm")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    onDismissRequest()
+                }
+            ) {
+                Text("Dismiss")
+            }
+        }
     )
+}
+
+@Composable
+fun DialogExamples() {
+    val openAlertDialog = remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Button(onClick = { openAlertDialog.value = true }) {
+            Text("Show Alert Dialog")
+        }
+
+        if (openAlertDialog.value) {
+            AlertDialogExample(
+                onDismissRequest = { openAlertDialog.value = false },
+                onConfirmation = {
+                    openAlertDialog.value = false
+                    println("Confirmation registered") // Add logic here to handle confirmation.
+                },
+                dialogTitle = "Alert dialog example",
+                dialogText = "This is an example of an alert dialog with buttons.",
+                icon = Icons.Default.Info
+            )
+        }
+    }
+}
+
+@Composable
+fun SimpleFilledTextFieldSample() {
+    var text by remember { mutableStateOf("Hello") }
+
+    TextField(
+        value = text,
+        onValueChange = { text = it },
+        label = { Text("Label") }
+    )
+}
+@Composable
+fun SimpleOutlinedTextFieldSample() {
+    var text by remember { mutableStateOf("") }
+
+    OutlinedTextField(
+        value = text,
+        onValueChange = { text = it },
+        label = { Text("Label") }
+    )
+}
+
+@Composable
+fun StyledTextField() {
+    var value by remember { mutableStateOf("Hello\nWorld\nInvisible") }
+
+    TextField(
+        value = value,
+        onValueChange = { value = it },
+        label = { Text("Enter text") },
+        maxLines = 2,
+        textStyle = TextStyle(color = Color.Blue, fontWeight = FontWeight.Bold),
+        modifier = Modifier.padding(20.dp)
+    )
+}
+
+@Composable
+fun ShowDialogWithImageExample() {
+    var showDialog by remember { mutableStateOf(false) }
+
+    val painter = painterResource(id = R.drawable.sample_1)
+    val imageDescription = "Sample Image"
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Button(onClick = { showDialog = true }) {
+            Text("Show Dialog With Image")
+        }
+
+        if (showDialog) {
+            DialogWithImage(
+                onDismissRequest = { showDialog = false },
+                onConfirmation = { /* Handle confirmation action */ showDialog = false },
+                painter = painter,
+                imageDescription = imageDescription,
+            )
+        }
+    }
+}
+
+@Composable
+fun DialogWithImage(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    painter: Painter,
+    imageDescription: String,
+) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(375.dp)
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Image(
+                    painter = painter,
+                    contentDescription = imageDescription,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.height(160.dp)
+                )
+                Text(
+                    text = "This is a dialog with buttons and an image.",
+                    modifier = Modifier.padding(16.dp),
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    TextButton(
+                        onClick = { onDismissRequest() },
+                        modifier = Modifier.padding(8.dp),
+                    ) {
+                        Text("Dismiss")
+                    }
+                    TextButton(
+                        onClick = { onConfirmation() },
+                        modifier = Modifier.padding(8.dp),
+                    ) {
+                        Text("Confirm")
+                    }
+                }
+            }
+        }
+    }
 }

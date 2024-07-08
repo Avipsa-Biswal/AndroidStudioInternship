@@ -1,0 +1,5 @@
+![8jul_pic6](https://github.com/Avipsa-Biswal/AndroidStudioInternship/assets/130790574/734b61eb-cb7c-43f5-9636-0c62bae8b0d5)
+![8jul_pic5](https://github.com/Avipsa-Biswal/AndroidStudioInternship/assets/130790574/d0cb2c8f-622f-4a11-9272-fd71a6c06062)
+![8jul_pic4](https://github.com/Avipsa-Biswal/AndroidStudioInternship/assets/130790574/b0d4e827-6fcf-4252-bcc6-eb9a1ad0578d)
+![8jul_pic3](https://github.com/Avipsa-Biswal/AndroidStudioInternship/assets/130790574/fa49a43e-fd2f-42cb-94cd-21b2564aeadb)
+![8jul_pic1](https://github.com/Avipsa-Biswal/AndroidStudioInternship/assets/130790574/47e8c360-97eb-48f8-b3cb-037c98659b54)

@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                     .fillMaxSize()
                     .padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 //Function to implement basic MVVM architecture
                 CounterView()
@@ -85,6 +85,9 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun CounterView(counterVM: CounterViewModel = viewModel()) {
         val counterState = counterVM.counter.value
+        var intContent = GenericClass(129)
+        var stringContent = GenericClass("hello generics")
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -99,8 +102,10 @@ class MainActivity : ComponentActivity() {
                 Text(text = "decrement")
                 }
                 Spacer(modifier = Modifier.width(20.dp))
-                Button(onClick = { counterVM.resetCounter() }) {
-                    Text(text = "reset")
+                Button(onClick = { counterVM.login()
+                println("${intContent.content},${stringContent.content}")})
+                {
+                    Text(text = "login")
                 }
             }
         }
@@ -125,4 +130,10 @@ class CounterViewModel : ViewModel() {
     fun resetCounter() {
         _counter.value = Counter(0)
     }
+    fun login() {
+        //login
+    }
+
 }
+
+class GenericClass<T>(var content: T)

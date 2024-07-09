@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -29,11 +30,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +53,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -63,140 +69,60 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyApplicationTheme {
-                //Function to understand State Management
-                CounterScreen()
-                //Function to understand Navigation Controller and implementing lazy vertical grid in screen 5
-                AppNavigation()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                //Function to implement basic MVVM architecture
+                CounterView()
+            }
+        }
+    }
 
+    @Composable
+    fun CounterView(counterVM: CounterViewModel = viewModel()) {
+        val counterState = counterVM.counter.value
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = "Current Counter Value: ${counterState.count}")
+            Row {
+                Button(onClick = { counterVM.incrementCounter() }) {
+                    Text(text = "Increment")
+                }
+            Spacer(modifier = Modifier.width(20.dp))
+            Button(onClick = { counterVM.decrementCounter() }) {
+                Text(text = "decrement")
+                }
+                Spacer(modifier = Modifier.width(20.dp))
+                Button(onClick = { counterVM.resetCounter() }) {
+                    Text(text = "reset")
+                }
             }
         }
     }
 }
 
-@Composable
-fun CounterScreen(){
-    var count: Int by remember {
-        mutableStateOf( 0)
-    }
-    var text: String by remember {
-        mutableStateOf( " ")
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ){
-        Text(text="The count value is $count")
-        Spacer(modifier = Modifier.height(10.dp))
-        Button(onClick = { count++ }) {
-            Text(text = "Increment")
-        }
-        Button(onClick = { count-- }) {
-            Text(text = "Decrement")
-        }
-        TextField(
-            value = text ,
-            onValueChange = { text=it },
-            label = { Text ("enter password") },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
-    }
-}
+//Model Class
+data class Counter(val count: Int)
+data class User(val username: String, val password: String)
 
-@Composable
-fun AppNavigation(){
-    val navController = rememberNavController()
+//ViewModelClass
+class CounterViewModel : ViewModel() {
+    private val _counter = mutableStateOf(Counter(0))
+    val counter: State<Counter> = _counter
 
-    NavHost(navController = navController,
-            startDestination = "Screen1") {
-        composable("Screen1") { Screen1(navController) }
-        composable("Screen2") { Screen2(navController) }
-        composable("Screen3") { Screen3(navController) }
-        composable("Screen4/{data}",
-            arguments = listOf(navArgument("data") { type = NavType.StringType })
-        ) { backStackEntry ->
-            Screen4(navController, backStackEntry.arguments?.getString("data") ?: "")
-        }
-        composable("Screen5") { Screen5(navController) }
+    fun incrementCounter() {
+        _counter.value = Counter(_counter.value.count + 1)
     }
-}
-
-
-@Composable
-fun Screen1(navController: NavHostController) {
-    Column {
-        Text(
-            text = "This is Screen1... Welcome!!!",
-            fontSize = 30.sp,
-            color = Color.Red
-        )
-        Button(onClick = { navController.navigate("Screen2") }) {
-            Text(text = "Go to Screen2")
-        }
+    fun decrementCounter() {
+        _counter.value = Counter(_counter.value.count - 1)
     }
-}
-
-@Composable
-fun Screen2(navController: NavHostController) {
-    Column {
-        Text(
-            text = "This is Screen2... Welcome!!!",
-            fontSize = 30.sp,
-            color = Color.Red
-        )
-        Button(onClick = { navController.navigate("Screen3") }) {
-            Text(text = "Go to Screen3")
-        }
+    fun resetCounter() {
+        _counter.value = Counter(0)
     }
-}
-
-@Composable
-fun Screen3(navController: NavHostController) {
-    var text by remember { mutableStateOf("") }
-    Column {
-        Text(
-            text = "This is Screen3... Welcome!!!",
-            fontSize = 30.sp,
-            color = Color.Red
-        )
-        OutlinedTextField(
-            value = text,
-            onValueChange = { text = it }
-        )
-        Button(onClick = {
-            if (text.isNotBlank()) {
-                navController.navigate("Screen4/${text.trim()}")
-            }
-        }) {
-            Text(text = "Go to Screen4")
-        }
-    }
-}
-@Composable
-fun Screen4(navController: NavHostController,data:String) {
-    Column {
-        Text(
-            text = "this is screen4...welcome!!! data is $data",
-            fontSize = 30.sp,
-            color=Color.Red
-        )
-        Button(onClick = { navController.navigate("screen5") }) {
-            Text(text = "go to screen5")
-        }
-    }
-}
-@Composable
-fun Screen5(navController: NavHostController) {
-    val itemsList: List<String> = List(100){"items = $it"}
-    LazyVerticalGrid(columns = GridCells.Adaptive(128.dp)) {
-        items(itemsList){
-            Card {
-            Text(text = it)
-        }
-    }
-  }
 }

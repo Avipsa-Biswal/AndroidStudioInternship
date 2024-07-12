@@ -15,6 +15,7 @@ navigationCompose = "2.7.7"
 materialIconsExtended = "1.6.8"
 navigationRuntime = "2.7.7"
 navigationDynamicFeaturesFragment = "2.7.7"
+runtimeLivedata = "1.6.8"
 
 [libraries]
 androidx-compose = { module = "androidx.navigation.navigation:compose", version.ref = "compose" }
@@ -38,6 +39,7 @@ androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navig
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-runtime = { group = "androidx.navigation", name = "navigation-runtime", version.ref = "navigationRuntime" }
 androidx-navigation-dynamic-features-fragment = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "navigationDynamicFeaturesFragment" }
+androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

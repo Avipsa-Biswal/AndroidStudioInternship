@@ -51,9 +51,17 @@ android {
 
 dependencies {
     //val nav_version = "2.7.7"
-    implementation("io.coil-kt:coil-compose:2.6.0")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("androidx.compose.material3:material3:1.2.1")
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha01")
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-auth")
     implementation (libs.androidx.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.core.ktx)

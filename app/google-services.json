@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "157288883087",
+    "project_id": "fir-integrity-88627",
+    "storage_bucket": "fir-integrity-88627.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157288883087:android:03f1800eb9baa56878a1fa",
+        "android_client_info": {
+          "package_name": "com.example.Androidintern345"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVxbg17HOyuZLA8D40mE2iseK4m4O5Wzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

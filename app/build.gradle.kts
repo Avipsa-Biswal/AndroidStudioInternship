@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services") version "4.4.2"
 }
 
 android {
@@ -51,6 +52,9 @@ android {
 
 dependencies {
     //val nav_version = "2.7.7"
+
+    implementation ("com.google.firebase:firebase-core:9.6.1")
+
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")

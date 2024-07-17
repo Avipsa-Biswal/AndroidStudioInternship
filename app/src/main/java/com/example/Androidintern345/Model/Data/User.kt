@@ -1,7 +1,7 @@
 package com.example.Androidintern345.Model.Data
 
-data class User (
-    val id: Int,
+data class User(
+    val id: String,
     val email:String,
     val username: String,
     val password: String,

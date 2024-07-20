@@ -52,11 +52,14 @@ android {
 
 dependencies {
     //val nav_version = "2.7.7"
+
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.appcompat:appcompat-resources:1.7.0")
     implementation ("com.google.firebase:firebase-auth-ktx")
     implementation("androidx.browser:browser:1.8.0")
     implementation ("com.google.android.gms:play-services-auth:20.3.0")
     implementation ("com.google.firebase:firebase-core:9.6.1")
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.google.code.gson:gson:2.8.9")
@@ -82,6 +85,7 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage.ktx)
+    implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

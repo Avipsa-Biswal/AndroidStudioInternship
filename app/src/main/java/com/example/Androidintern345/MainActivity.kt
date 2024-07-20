@@ -1,6 +1,5 @@
 package com.example.Androidintern345
 
-import com.example.Androidintern345.ui.theme.MyApplicationTheme
 import android.net.Uri
 import android.os.Bundle
 import android.service.controls.ControlsProviderService.TAG
@@ -37,151 +36,42 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import java.util.UUID
+import android.annotation.SuppressLint
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity: ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var webView: WebView
+
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // enableEdgeToEdge()
-        setContent {
-//            val userList = remember {
-//                mutableStateOf<List<User>>(emptyList())
-//            }
-//            LaunchedEffect(Unit) {
-//                fetchStudents { users ->
-//                    userList.value = users
-//                }
-//            }
-            MyApplicationTheme {
-                // AddUserScreen()
-//                LazyColumn(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(20.dp)
-//                ) {
-//                    items(userList.value) { user ->
-//                        Text(text = "NAME: ${user.name}, Age: ${user.age}")
-//                    }
-//                }
-                ImageUploadScreen()
-            }
+        setContentView(R.layout.activity_main)
+
+        try {
+            webView = findViewById(R.id.webView)
+
+            webView.settings.javaScriptEnabled = true
+
+            webView.webViewClient = MyWebViewClient()
+
+
+            webView.loadUrl("https://www.youtube.com")
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error initializing WebView", e)
         }
     }
 
-    val db = Firebase.firestore
-    fun addUser(name: String, age: Int) {
-        val user = User(
-            name,
-            age
-        )
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { docRef ->
-                Log.d(TAG, "DOCUMENT SNAPSHOT ADDED WITH ID: ${docRef.id}")
+    private class MyWebViewClient : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            request?.url?.let {
+                view?.loadUrl(it.toString())
+                return true
             }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error Adding Document")
-
-            }
-    }
-
-    fun fetchStudents(onResult: (List<User>) -> Unit) {
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { result ->
-                val userList = result.map { document -> document.toObject(User::class.java) }
-                onResult(userList)
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error getting document", e)
-            }
-    }
-
-    val storage = Firebase.storage
-    val storageRef = storage.reference
-    fun uploadImage(uri: Uri, context: android.content.Context) {
-        val fileName = "Images/${UUID.randomUUID()}.jpg"
-        val imageRef = storageRef.child(fileName)
-
-        imageRef.putFile(uri)
-            .addOnSuccessListener { taskSnapshot ->
-                imageRef.downloadUrl.addOnSuccessListener { uri ->
-                    Toast.makeText(context, "Image Uploaded Successfully: $uri", Toast.LENGTH_LONG)
-                        .show()
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(context, "Image Uploading Failed: ${e.message}", Toast.LENGTH_SHORT)
-                    .show()
-
-            }
-    }
-
-    @Composable
-    fun ImageUploadScreen() {
-        val context = LocalContext.current
-        val imageUri = remember { mutableStateOf<Uri?>(null) }
-        val launcher =
-            rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                imageUri.value = uri
-                uri?.let { uploadImage(uri, context) }
-            }
-        Column(
-            modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(onClick = { launcher.launch("image/*") }) {
-                Text("SELECT IMAGE")
-            }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        imageUri.value?.let { uri ->
-            Image(
-                painter = rememberAsyncImagePainter(uri),
-                contentDescription = null,
-                modifier = Modifier.size(200.dp)
-            )
+            return super.shouldOverrideUrlLoading(view, request)
         }
     }
-
-    @Composable
-    fun AddUserScreen() {
-        var name by remember { mutableStateOf("") }
-        var age by remember {
-            mutableStateOf("")
-        }
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            TextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text(text = "ENTER NAME") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            TextField(
-                value = age,
-                onValueChange = { age = it },
-                label = { Text(text = "ENTER AGE") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = {
-                addUser(name, age.toInt())
-            }) {
-                Text(text = "Add User")
-            }
-        }
-    }
-
-
-    // DATA CLASS
-    data class User(
-        val name: String = "",
-        val age: Int = 0
-    )
 }
